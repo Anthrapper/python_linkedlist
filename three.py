@@ -7,7 +7,7 @@ from one import createLinkedList
 
 
 def paritionLast(start, end):
-    if (start == end or start == None or end == None):
+    if start is end or start is None or end is None:
         return start
 
     pivot_prev = start
@@ -15,7 +15,7 @@ def paritionLast(start, end):
     pivot = end.data
 
     while (start != end):
-        if (start.data > pivot):
+        if start.data > pivot:
             pivot_prev = curr
             temp = curr.data
             curr.data = start.data
@@ -30,22 +30,22 @@ def paritionLast(start, end):
     return pivot_prev
 
 def sort(start, end):
-    if(start == None or start == end or start == end.next):
+    if start is None or start is end or start is end.next:
         return
 
     pivot_prev = paritionLast(start, end)
     sort(start, pivot_prev)
 
-    if(pivot_prev != None and pivot_prev == start):
+    if pivot_prev is not None and pivot_prev is start:
         sort(pivot_prev.next, end)
 
-    elif (pivot_prev != None and pivot_prev.next != None):
+    elif (pivot_prev is not None and pivot_prev.next is not None):
         sort(pivot_prev.next.next, end)
  
 if __name__ == "__main__":
     print('Linked List Before Sorting: ')
     my_list = LinkedList()
-    createLinkedList(8,my_list)
+    createLinkedList(10,my_list)
  
     start = my_list.head
     end=start

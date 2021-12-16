@@ -30,7 +30,6 @@ def mergeSort(head):
 	mid =midElement(head)
 	newHead = mid.next
 	mid.next = None
-
 	left = mergeSort(head)
 	right = mergeSort(newHead)
 	sortedlist = mergeList(left, right)
