@@ -2,32 +2,29 @@
 # assigned at each node along with node pointer. Write a Merge Sort Program using 
 # recursion to sort in ascending order. 
 
-from base.list import LinkedList
 from one import createLinkedList
+from base.list import LinkedList
 
  
 def mergeList(left, right):
-
-	if left == None:
+	temp = None
+	if left is None:
 		return right
-	if right == None:
+	if right is None:
 		return left
 
-	result = None
-
 	if left.data <= right.data:
-		result = left
-		result.next = mergeList(left.next, right)
+		temp = left
+		temp.next = mergeList(left.next, right)
 	else:
-		result = right
-		result.next = mergeList(left, right.next)
+		temp = right
+		temp.next = mergeList(left, right.next)
 
-	return result
+	return temp
 	
 
 def mergeSort(head):
-
-	if head == None or head.next == None:
+	if head is None or head.next is None:
 		return head
 
 	mid =midElement(head)
@@ -41,7 +38,6 @@ def mergeSort(head):
 	
 
 def midElement(head):
-	
 	i = j = head
 	while (j.next and j.next.next):
 		i = i.next
@@ -49,7 +45,6 @@ def midElement(head):
 	return i
 
 if __name__ == "__main__":
-	
 	print('\nLinked List Before Sorting: \n')
 	my_list = LinkedList()
 	createLinkedList(10,my_list)

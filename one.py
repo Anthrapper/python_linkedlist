@@ -1,7 +1,6 @@
 # 1. Write a python/C program to create a linked list of 'n' nodes. Each node contains an
 # integer value  and pointer to next node.
 
-
 from base.list import LinkedList
 import random
 
