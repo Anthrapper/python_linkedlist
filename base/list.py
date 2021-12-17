@@ -24,10 +24,11 @@ class LinkedList:
 			while(temp.next):
 				temp = temp.next
 			temp.next=newNode
+			
 	def __str__(self):
 		str_list = []
-		current = self.head
-		while current:
-			str_list.append(str(current.data))
-			current = current.next
-		return "->".join(str_list)
+		temp = self.head
+		while temp:
+			str_list.append(str(temp.data))
+			temp = temp.next
+		return " -> ".join(str_list)

@@ -5,14 +5,11 @@ from base.list import LinkedList
 import random
 
 def createLinkedList(n,my_list):
-    
     for i in range(n):
-        # my_list.insertElement(int(input("Enter the {} element: ".format(i+1))))
         my_list.insertElement(random.randint(0, 100))
     my_list.display()
 
-
 if __name__ == "__main__":
-    num= int(input("Enter no.of nodes :"))
+    num= int(input("Enter no.of nodes : "))
     my_list = LinkedList()
     createLinkedList(num,my_list)

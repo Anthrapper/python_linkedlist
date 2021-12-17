@@ -5,7 +5,6 @@
 from one import createLinkedList
 from base.list import LinkedList
 
- 
 def mergeList(left, right):
 	temp = None
 	if left is None:
@@ -22,7 +21,6 @@ def mergeList(left, right):
 
 	return temp
 	
-
 def mergeSort(head):
 	if head is None or head.next is None:
 		return head
@@ -34,7 +32,6 @@ def mergeSort(head):
 	right = mergeSort(newHead)
 	sortedlist = mergeList(left, right)
 	return sortedlist
-	
 
 def midElement(head):
 	i = j = head
