@@ -2,146 +2,44 @@
 #Implement chaining when collision occurs using parts of Program 1 as a function
 
 
-# class HashMap:
-# 	def __init__(self,ptr=None):
-# 		self.key=None
-# 		self.value=None
-# 		self.ptr=ptr
+import random
+from base.list import LinkedList
+from base.node import Node
 
-# 	def insert(self,value):
-# 		self.key=value % 10
-# 		self.value=value
-	
-# 	def display(self):
-# 		temp=self.key
-# 		print(temp)
-# 		while (temp is not None):
-# 			print (f"{self.key} : {self.value} ")
-# 			i=i+1
+class ChainedHashTable:
+	def __init__(self, size):
+		self.links = [None] * size
+		self.size = size
 
-# my_hash=HashMap()
-# my_hash.insert(34)
-# my_hash.insert(25)
-# my_hash.insert(11)
-# my_hash.insert(89)
-# my_hash.insert(93)
-# my_hash.insert(22)
-# my_hash.insert(77)
-# my_hash.insert(61)
-# my_hash.insert(48)
-# my_hash.insert(50)
-# my_hash.display()
+	def insert(self, key):
+		#Make 'head' equal to LL/None at given key in hash table
+		head = self.links[self.hash(key)]
+
+		#Check to see if spot at hash table is None. If so, make new LL.
+		if head == None:
+			head = LinkedList()
+			node = Node(key)
+			head.insertElement(node.data)
+			self.links[self.hash(key)] = head
+			return
+
+		#Else append key to already existing linked list.
+		node = Node(key)
+		head.insertElement(node.data)
+		return
+
+	def hash(self, key):
+		hash_code = key % self.size
+		return hash_code
 
 
-class HashTable:
-  
-    # Create empty bucket list of given size
-    def __init__(self, size):
-        self.size = size
-        self.hash_table = self.create_buckets()
-  
-    def create_buckets(self):
-        return [[] for _ in range(self.size)]
-  
-    # Insert values into hash map
-    def set_val(self, key, val):
-        
-        # Get the index from the key
-        # using hash function
-        hashed_key = val % self.size
-          
-        # Get the bucket corresponding to index
-        bucket = self.hash_table[hashed_key]
-  
-        found_key = False
-        for index, record in enumerate(bucket):
-            record_key, record_val = record
-              
-            # check if the bucket has same key as
-            # the key to be inserted
-            if record_key == key:
-                found_key = True
-                break
-  
-        # If the bucket has same key as the key to be inserted,
-        # Update the key value
-        # Otherwise append the new key-value pair to the bucket
-        if found_key:
-            bucket[index] = (key, val)
-        else:
-            bucket.append((key, val))
-  
-    # Return searched value with specific key
-    def get_val(self, key):
-        
-        # Get the index from the key using
-        # hash function
-        hashed_key = hash(key) % self.size
-          
-        # Get the bucket corresponding to index
-        bucket = self.hash_table[hashed_key]
-  
-        found_key = False
-        for index, record in enumerate(bucket):
-            record_key, record_val = record
-              
-            # check if the bucket has same key as 
-            # the key being searched
-            if record_key == key:
-                found_key = True
-                break
-  
-        # If the bucket has same key as the key being searched,
-        # Return the value found
-        # Otherwise indicate there was no record found
-        if found_key:
-            return record_val
-        else:
-            return "No record found"
-  
-    # Remove a value with specific key
-    def delete_val(self, key):
-        
-        # Get the index from the key using
-        # hash function
-        hashed_key = hash(key) % self.size
-          
-        # Get the bucket corresponding to index
-        bucket = self.hash_table[hashed_key]
-  
-        found_key = False
-        for index, record in enumerate(bucket):
-            record_key, record_val = record
-              
-            # check if the bucket has same key as
-            # the key to be deleted
-            if record_key == key:
-                found_key = True
-                break
-        if found_key:
-            bucket.pop(index)
-        return
-  
-    # To print the items of hash map
-    def __str__(self):
-        return "".join(str(item) for item in self.hash_table)
-  
-  
-hash_table = HashTable(50)
-  
-# insert some values
-hash_table.set_val('gfg@example.com', 'some value')
-print(hash_table)
-print()
-  
-hash_table.set_val('portal@example.com', 'some other value')
-print(hash_table)
-print()
-  
-# search/access a record with key
-print(hash_table.get_val('portal@example.com'))
-print()
-  
-# delete or remove a value
-hash_table.delete_val('portal@example.com')
-print(hash_table)
+if __name__ == "__main__": 
+	my_list = LinkedList()
+	num=10
+	cht = ChainedHashTable(num)
+
+	for i in range(num):
+		cht.insert(random.randint(1, 99))
+	print('\nIndex\tKey')
+	for obj in range(cht.size):
+		print(f'  {obj}  \t{cht.links[obj]}')
