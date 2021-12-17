@@ -3,57 +3,46 @@
 # Program using recursion to sort in descending order. 
 
 from base.list import LinkedList
-from one import createLinkedList
+from one import createLinkedList	
 
+def parition(start, end) :
+	pivot = start
+	front = start
+	while front != None and front != end :
+		if (front.data > end.data) :
+			pivot = start
+			# Swap node value
+			temp = start.data
+			start.data = front.data
+			front.data = temp
+			# Visit to next node
+			start = start.next
+		
+		# Visit to next node
+		front = front.next
+	
+	temp = start.data
+	start.data = end.data
+	end.data = temp
+	return pivot
 
-def paritionLast(start, end):
-    if start is end or start is None or end is None:
-        return start
+def quickSort(start, end) :
+	if start == end :
+		return
+	pivot = parition(start, end)
 
-    pivot_prev = start
-    curr = start
-    pivot = end.data
+	if pivot != start != None :
+		quickSort(start, pivot)
+	if pivot != None and pivot.next != None :
+		quickSort(pivot.next, end)
 
-    while (start != end):
-        if start.data > pivot:
-            pivot_prev = curr
-            temp = curr.data
-            curr.data = start.data
-            start.data = temp
-            curr = curr.next
-        start = start.next
-
-    temp = curr.data
-    curr.data = pivot
-    end.data = temp
-
-    return pivot_prev
-
-def sort(start, end):
-    if start is None or start is end or start is end.next:
-        return
-
-    pivot_prev = paritionLast(start, end)
-    sort(start, pivot_prev)
-
-    if pivot_prev is not None and pivot_prev is start:
-        sort(pivot_prev.next, end)
-
-    elif (pivot_prev is not None and pivot_prev.next is not None):
-        sort(pivot_prev.next.next, end)
- 
-if __name__ == "__main__":
-    print('Linked List Before Sorting: ')
-    my_list = LinkedList()
-    createLinkedList(10,my_list)
- 
-    start = my_list.head
-    end=start
-    while (end.next != None):
-        end = end.next
-
-    sort(start, end)
- 
-    print("\nAfter Quick Sort: ");
-    
-    my_list.display()
+if __name__ == "__main__": 
+	my_list = LinkedList()
+	createLinkedList(10,my_list)
+	start= my_list.head
+	end=my_list.head
+	while (end.next):
+		end=end.next
+	val=quickSort(start,end)
+	print("\n After Sort \n")
+	my_list.display(val=val)

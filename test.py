@@ -1,54 +1,71 @@
-from base.list import LinkedList
-from one import createLinkedList
+from base.node import Node
 
- 
-def mergeList(left, right):
 
-	if left == None:
-		return right
-	if right == None:
-		return left
+class LinkedList:
 
-	result = None
+	def __init__(self):
+		self.head = None
 
-	if left.data <= right.data:
-		result = left
-		result.next = mergeList(left.next, right)
-	else:
-		result = right
-		result.next = mergeList(left, right.next)
+	def add(self, data):
+		temp = self.head
+		self.head = Node(data)
+		self.head.next = temp
 
-	return result
-	
+	def __str__(self):
+		str_list = []
+		current = self.head
+		while current:
+			str_list.append(str(current.data))
+			current = current.next
+		return "[" + "->".join(str_list) + "]"
 
-def mergeSort(head):
+# Implement the missing functions in the ChainedHashTable ADT    
+class ChainedHashTable:
+	def __init__(self, size):
+		self.links = [None] * size
+		self.size = size
 
-	if head == None or head.next == None:
-		return head
+	def __repr__(self):
+		final_list = []
+		for i in range(len(self.links)):
+			if self.links[i] == None:
+				final_list.append('None')
+			else:
+				link_list = self.links[i]
+				string = link_list.__str__()
+				final_list.append(string)
+		return ', '.join(final_list)
 
-	mid =midElement(head)
-	newHead = mid.next
-	mid.next = None
 
-	left = mergeSort(head)
-	right = mergeSort(newHead)
-	sortedlist = mergeList(left, right)
-	return sortedlist
-	
 
-def midElement(head):
-	
-	i = j = head
-	while (j.next and j.next.next):
-		i = i.next
-		j = j.next.next
-	return i
+	def insert(self, key):
+		#Make 'lst' equal to LL/None at given key in hash table
+		lst = self.links[self.hash(key)]
 
-if __name__ == "__main__":
-	
-	print('\nLinked List Before Sorting: \n')
+		#Check to see if spot at hash table is None. If so, make new LL.
+		if lst == None:
+			lst = LinkedList()
+			node = Node(key)
+			lst.add(node.data)
+			self.links[self.hash(key)] = lst
+			return
+
+		#Else append key to already existing linked list.
+		node = Node(key)
+		lst.add(node.data)
+		return
+
+	def hash(self, key):
+		hash_code = key % self.size
+		return hash_code
+
+
+if __name__ == "__main__": 
 	my_list = LinkedList()
-	createLinkedList(10,my_list)
-	res = mergeSort(my_list.head)
-	print("\nAfter Merge Sort: \n")
-	my_list.display(val=res)
+cht = ChainedHashTable(7)
+cht.insert(15)
+cht.insert(11)
+cht.insert(27)
+cht.insert(8)
+
+print(cht)

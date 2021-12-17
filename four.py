@@ -1,40 +1,147 @@
 #Implement a hash table of 10 elements with modulo as hash function.
-# Implement chaining when collision occurs using parts of Program 1 as a function
+#Implement chaining when collision occurs using parts of Program 1 as a function
 
-def display_hash(hashTable):
-      
-    for i in range(len(hashTable)):
-        print(i, end = " ")
+
+# class HashMap:
+# 	def __init__(self,ptr=None):
+# 		self.key=None
+# 		self.value=None
+# 		self.ptr=ptr
+
+# 	def insert(self,value):
+# 		self.key=value % 10
+# 		self.value=value
+	
+# 	def display(self):
+# 		temp=self.key
+# 		print(temp)
+# 		while (temp is not None):
+# 			print (f"{self.key} : {self.value} ")
+# 			i=i+1
+
+# my_hash=HashMap()
+# my_hash.insert(34)
+# my_hash.insert(25)
+# my_hash.insert(11)
+# my_hash.insert(89)
+# my_hash.insert(93)
+# my_hash.insert(22)
+# my_hash.insert(77)
+# my_hash.insert(61)
+# my_hash.insert(48)
+# my_hash.insert(50)
+# my_hash.display()
+
+
+class HashTable:
+  
+    # Create empty bucket list of given size
+    def __init__(self, size):
+        self.size = size
+        self.hash_table = self.create_buckets()
+  
+    def create_buckets(self):
+        return [[] for _ in range(self.size)]
+  
+    # Insert values into hash map
+    def set_val(self, key, val):
+        
+        # Get the index from the key
+        # using hash function
+        hashed_key = val % self.size
           
-        for j in hashTable[i]:
-            print("-->", end = " ")
-            print(j, end = " ")
+        # Get the bucket corresponding to index
+        bucket = self.hash_table[hashed_key]
+  
+        found_key = False
+        for index, record in enumerate(bucket):
+            record_key, record_val = record
               
-        print()
+            # check if the bucket has same key as
+            # the key to be inserted
+            if record_key == key:
+                found_key = True
+                break
   
-# Creating Hashtable as 
-# a nested list.
-HashTable = [[] for _ in range(10)]
+        # If the bucket has same key as the key to be inserted,
+        # Update the key value
+        # Otherwise append the new key-value pair to the bucket
+        if found_key:
+            bucket[index] = (key, val)
+        else:
+            bucket.append((key, val))
   
-# Hashing Function to return 
-# key for every value.
-def Hashing(keyvalue):
-    return keyvalue % len(HashTable)
+    # Return searched value with specific key
+    def get_val(self, key):
+        
+        # Get the index from the key using
+        # hash function
+        hashed_key = hash(key) % self.size
+          
+        # Get the bucket corresponding to index
+        bucket = self.hash_table[hashed_key]
+  
+        found_key = False
+        for index, record in enumerate(bucket):
+            record_key, record_val = record
+              
+            # check if the bucket has same key as 
+            # the key being searched
+            if record_key == key:
+                found_key = True
+                break
+  
+        # If the bucket has same key as the key being searched,
+        # Return the value found
+        # Otherwise indicate there was no record found
+        if found_key:
+            return record_val
+        else:
+            return "No record found"
+  
+    # Remove a value with specific key
+    def delete_val(self, key):
+        
+        # Get the index from the key using
+        # hash function
+        hashed_key = hash(key) % self.size
+          
+        # Get the bucket corresponding to index
+        bucket = self.hash_table[hashed_key]
+  
+        found_key = False
+        for index, record in enumerate(bucket):
+            record_key, record_val = record
+              
+            # check if the bucket has same key as
+            # the key to be deleted
+            if record_key == key:
+                found_key = True
+                break
+        if found_key:
+            bucket.pop(index)
+        return
+  
+    # To print the items of hash map
+    def __str__(self):
+        return "".join(str(item) for item in self.hash_table)
   
   
-# Insert Function to add
-# values to the hash table
-def insert(Hashtable, keyvalue, value):
-      
-    hash_key = Hashing(keyvalue)
-    Hashtable[hash_key].append(value)
+hash_table = HashTable(50)
   
-# Driver Code
-insert(HashTable, 10, 'Allahabad')
-insert(HashTable, 25, 'Mumbai')
-insert(HashTable, 20, 'Mathura')
-insert(HashTable, 9, 'Delhi')
-insert(HashTable, 21, 'Punjab')
-insert(HashTable, 21, 'Noida')
+# insert some values
+hash_table.set_val('gfg@example.com', 'some value')
+print(hash_table)
+print()
   
-display_hash (HashTable)
+hash_table.set_val('portal@example.com', 'some other value')
+print(hash_table)
+print()
+  
+# search/access a record with key
+print(hash_table.get_val('portal@example.com'))
+print()
+  
+# delete or remove a value
+hash_table.delete_val('portal@example.com')
+print(hash_table)
